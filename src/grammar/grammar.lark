@@ -1,0 +1,41 @@
+modifier : "override" 
+         | "abstract"
+         | "final"
+
+literal : /[a-zA-Z]+[a-zA-Z0-9]*/
+
+path : /[a-zA-Z0-9\/\.]+/ 
+
+name : literal
+
+integer  : SIGNED_INT
+string   : ESCAPED_STRING
+floating : SIGNED_FLOAT
+boolean  : "True" | "False" 
+none     : "None"
+
+value: assignements
+     | floating
+     | integer
+     | string
+     | boolean
+     | none
+
+animport : "from" path "import" name
+imports  : (animport ",")*
+
+
+assignement  : name ":" value
+             | modifier name ":" value
+             | modifier name "extends" name ":" value
+assignements : "{" assignement ("," assignement)* "}"
+
+start : name ":" assignements 
+      | imports name ":" assignements
+
+%import common.ESCAPED_STRING
+%import common.SIGNED_FLOAT
+%import common.SIGNED_INT
+%import common.WS
+%ignore WS
+

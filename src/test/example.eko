@@ -1,0 +1,16 @@
+
+from ./example2.eko import example2,
+
+example : {
+    a : 12,
+    b : 12.12,
+    c : {
+        a : "hello"
+    },
+    d : {
+        a : 1,
+        b : None
+    }
+}
+
+

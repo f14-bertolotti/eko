@@ -1,0 +1,10 @@
+
+example2 : {
+    a : 2
+},
+
+example3 : {
+    b : 3
+}
+
+
