@@ -1,0 +1,14 @@
+
+configuration example {
+    "a" : 12,
+    "b" : 12.12,
+    "c" : {
+        "a" : "hello"
+    },
+    "d" : {
+        "a" : 1,
+        "b" : null
+    }
+}
+
+

@@ -1,0 +1,36 @@
+modifier : "override" 
+         | "abstract"
+         | "final"
+
+literal : /[a-zA-Z]+[a-zA-Z0-9]+/
+
+path : literal
+
+name : literal
+
+value: assignements
+     | ESCAPED_STRING
+     | SIGNED_NUMBER
+     | "true" 
+     | "false" 
+     | "null"
+
+import  : "from" path "import" name
+imports : (import ",")*
+
+configuration  : "configuration" name assignements
+               | "configuration" name "extends" name assignements
+configurations : (configuration ",")*
+
+assignement  : name ":" value
+             | modifier name ":" value
+assignements : "{" assignement ("," assignement)* "}"
+
+start : configurations
+      | imports configurations
+
+%import common.ESCAPED_STRING
+%import common.SIGNED_NUMBER
+%import common.WS
+%ignore WS
+
