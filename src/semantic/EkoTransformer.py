@@ -1,4 +1,5 @@
-from lark    import Transformer
+from grammar import InlineTransformer
+from grammar import inlineargs
 from pathlib import Path
 
 from .modifiers import Override
@@ -16,59 +17,23 @@ string2bool = {
     "true"  : True,
     "false" : False}
 
-class EkoTransformer(Transformer):
 
-    def modifier(self, mod):
-        return string2modifier(str(mod))()
+class EkoTransformer(InlineTransformer):
 
-    def literal(self, l):
-        (l,) = l
-        return str(l)
+    def literal       ( self, literal                   ) : return str(literal)
+    def name          ( self, name                      ) : return str(name)
+    def integer       ( self, interger                  ) : return int(interger)
+    def string        ( self, string                    ) : return str(string)
+    def value         ( self, value                     ) : return value
+    def imports       ( self, imports                   ) : return imports
+    def floating      ( self, floating                  ) : return floating
+    def path          ( self, path                      ) : return Path(path)
+    def none          ( self                            ) : return None
+    def modifier      ( self, modifier                  ) : return string2modifier[str(modifier)]()
+    def quoted_string ( self, string                    ) : return string[1:-1]
+    def boolean       ( self, b                         ) : return string2bool[b]
+    def assignement   ( self, k, v                      ) : return k,v
+    def animport      ( self, path, cnf                 ) : return Import(path, cnf)
+    def assignements  ( self, *args                     ) : return dict(args)
+    def start         ( self, imports, name, dictionary ) : return imports,{name:dictionary}
 
-    def string(self,s):
-        (s,) = s
-        return s[1:-1]
-
-    def name(self, n):
-        (n,) = n
-        return str(n)
-
-    def path(self, p):
-        (p,) = p
-        return Path(p)
-
-    def integer(self, i):
-        (i,) = i
-        return int(i)
-
-    def floating(self, f):
-        (f,) = f
-        return float(f)
-
-    def none(self, _):
-        return None
-
-    def boolean(self, b):
-        (b,) = b
-        return string2bool[b]
-
-    def assignement(self, kv):
-        k,v = kv
-        return k,v[0]
-
-    def assignements(self, d):
-        return dict(d)
-
-    def value(self, f):
-        return f
-
-    def start(self, s):
-        imports,name,dictionary = s
-        return imports,{name:dictionary}
-
-    def animport(self, path_cnf):
-        (path,cnf) = path_cnf
-        return Import(path, cnf)
-
-    def imports(self, imports):
-        return imports
