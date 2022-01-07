@@ -1,6 +1,3 @@
-modifier : "override" 
-         | "abstract"
-         | "final"
 
 literal : /[a-zA-Z]+[a-zA-Z0-9]*/
 
@@ -11,10 +8,16 @@ name : literal
 integer       : SIGNED_INT
 quoted_string : ESCAPED_STRING
 floating      : SIGNED_FLOAT
-boolean       : "True" | "False"
+override      : "override" 
+abstract      : "abstract" 
+final         : "final"
 none          : "None"
+true          : "True"
+false         : "False"
+boolean       : true | false
+modifier      : override | abstract | final
 
-value: assignements
+value: list_assign
      | floating
      | integer
      | quoted_string
@@ -25,17 +28,25 @@ animport : "from" path "import" name
 imports  : (animport ",")*
 
 
-assignement  : name ":" value
-             | modifier name ":" value
-             | modifier name "extends" name ":" value
-assignements : "{" assignement ("," assignement)* "}"
+smpl_assign : name ":" value
+mdfr_assign : modifier name ":" value
+xtnd_assign : name "extends" name ":" value
+xtnd_mdfr_assign : modifier name "extends" name ":" value
 
-start : name ":" assignements 
-      | imports name ":" assignements
+single_assign : smpl_assign
+              | mdfr_assign
+              | xtnd_assign
+              | xtnd_mdfr_assign
+
+list_assign : "{" single_assign ("," single_assign)* "}"
+
+start : single_assign
+      | imports single_assign
 
 %import common.ESCAPED_STRING
 %import common.SIGNED_FLOAT
 %import common.SIGNED_INT
 %import common.WS
 %ignore WS
+
 

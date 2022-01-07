@@ -2,10 +2,11 @@
 from ./example2.eko import example2,
 
 example : {
-    a : 12,
+    abstract a : None,
     b : 12.12,
     c : {
-        a : "hello"
+        a : "hello",
+        b : True
     },
     d : {
         a : 1,

@@ -1,5 +1,8 @@
 
+from .Modifier import Modifier
 
-class Final:
-    def __init__(self):
-        pass
+class Final(Modifier):
+    def __init__(self):pass
+    def __str__(self): "final"
+
+
