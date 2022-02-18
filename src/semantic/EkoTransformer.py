@@ -38,10 +38,12 @@ class EkoTransformer(InlineTransformer):
     def mdfr_assign     (self, m, k, v   ) : return Key(k,mod=m),v
     def xtnd_assign     (self, k, e, v   ) : return Key(k,ext=e),v
     def xtnd_mdfr_assign(self, m, k, e, v) : return Key(k,mod=m,ext=e),v
-    def single_assign   (self, a         ) : return a
+    def single_assign   (self, assign    ) : return assign
     def list_assign     (self, *args     ) : return dict(args)
+    def first_assign    (self, assign    ) : return Eko(None, {assign[0]:assign[1]})
 
-    def imports       ( self, imports   ) : return imports
-    def animport      ( self, path, cnf ) : return Import(path, cnf)
-    def start         ( self, imports, a) : return Eko(imports,{a[0]:a[1]})
+    def imports            (self, imports        ) : return imports
+    def animport           (self, path, name     ) : return Import(self, path, name)
+    def imports_with_assign(self, imports, assign) : return Eko(imports,{assign[0]:assign[1]})
+    def start              (self, code           ) : return code
 

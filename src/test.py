@@ -9,6 +9,8 @@ if __name__ == "__main__":
     
         with open("./src/test/example.eko") as example:
             tree = eko.parse(example.read())
-            print(EkoTransformer().transform(tree))
+            ekoTransformer = EkoTransformer()
+            ekoTransformer.curr_path = "./src/test/example.eko"
+            print(ekoTransformer.transform(tree))
 
 

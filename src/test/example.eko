@@ -1,5 +1,5 @@
 
-from ./example2.eko import example2,
+import ./example2.eko as renamed,
 
 example : {
     abstract a : None,

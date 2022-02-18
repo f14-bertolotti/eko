@@ -24,7 +24,7 @@ value: list_assign
      | boolean
      | none
 
-animport : "from" path "import" name
+animport : "import" path "as" name
 imports  : (animport ",")*
 
 
@@ -40,8 +40,12 @@ single_assign : smpl_assign
 
 list_assign : "{" single_assign ("," single_assign)* "}"
 
-start : single_assign
-      | imports single_assign
+
+imports_with_assign : imports single_assign
+first_assign : single_assign
+start : first_assign
+      | imports_with_assign
+
 
 %import common.ESCAPED_STRING
 %import common.SIGNED_FLOAT
