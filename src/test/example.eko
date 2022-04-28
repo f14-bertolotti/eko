@@ -1,5 +1,6 @@
 
-import ./example2.eko as renamed,
+from ./example2.eko import example2.b.x as rename
+from ./example3.eko import example3.a as rename
 
 example : {
     abstract a : None,

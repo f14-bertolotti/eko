@@ -10,6 +10,12 @@ class Key:
     def __hash__(self):
         return hash(self.key)
 
+    def __eq__(self, other):
+        return True if self.key == other.key else False
+
+    def __ne__(self, other):
+        return not (self == other)
+
     def __repr__(self):
         return str(self)
 

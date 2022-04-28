@@ -1,5 +1,4 @@
 from grammar import InlineTransformer
-from grammar import inlineargs
 from pathlib import Path
 
 from .modifiers import Override
@@ -10,6 +9,8 @@ from .imports import Import
 from .Eko import Eko
 from .Key import Key
 
+from .QualifiedName import QualifiedName
+from .Name import Name
 
 class EkoTransformer(InlineTransformer):
 
@@ -20,10 +21,11 @@ class EkoTransformer(InlineTransformer):
     def override(self) : return Override()
     def abstract(self) : return Abstract()
     def final   (self) : return Final()
-
+ 
     # REGEX TERMINALS #######################################
     def literal       (self, literal ) : return str(literal)
-    def name          (self, name    ) : return str(name)
+    def name          (self, name    ) : return Name(name)
+    def qualified_name(self, *names  ) : return QualifiedName(*names)
     def integer       (self, interger) : return int(interger)
     def boolean       (self, boolean ) : return boolean
     def string        (self, string  ) : return str(string)
@@ -39,11 +41,10 @@ class EkoTransformer(InlineTransformer):
     def xtnd_assign     (self, k, e, v   ) : return Key(k,ext=e),v
     def xtnd_mdfr_assign(self, m, k, e, v) : return Key(k,mod=m,ext=e),v
     def single_assign   (self, assign    ) : return assign
-    def list_assign     (self, *args     ) : return dict(args)
+    def multi_assign    (self, *args     ) : return dict(args)
     def first_assign    (self, assign    ) : return Eko(None, {assign[0]:assign[1]})
 
-    def imports            (self, imports        ) : return imports
-    def animport           (self, path, name     ) : return Import(self, path, name)
-    def imports_with_assign(self, imports, assign) : return Eko(imports,{assign[0]:assign[1]})
-    def start              (self, code           ) : return code
+    def single_import (self, path, name, alias) : return Import(self, path, name, alias)
+    def multi_import  (self, *imports         ) : return imports
+    def start         (self, imports, assign  ) : return Eko(imports,{assign[0]:assign[1]})
 

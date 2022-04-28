@@ -1,7 +1,10 @@
-import ./example3.eko as aaa,
+from ./example3.eko import example3 as ex 
 
 example2 : {
-    a : 2
+    a : 2,
+    b : {
+        x : 1
+    }
 }
 
 

@@ -2,8 +2,8 @@
 literal : /[a-zA-Z]+[a-zA-Z0-9]*/
 
 path : /[a-zA-Z0-9_\/\.]+/ 
-
 name : literal
+qualified_name : name ("." name)*
 
 integer       : SIGNED_INT
 quoted_string : ESCAPED_STRING
@@ -17,16 +17,16 @@ false         : "False"
 boolean       : true | false
 modifier      : override | abstract | final
 
-value: list_assign
+value: multi_assign
+     | qualified_name
      | floating
      | integer
      | quoted_string
      | boolean
      | none
 
-animport : "import" path "as" name
-imports  : (animport ",")*
-
+single_import : "from" path "import" qualified_name "as" name
+multi_import : single_import*
 
 smpl_assign : name ":" value
 mdfr_assign : modifier name ":" value
@@ -38,14 +38,9 @@ single_assign : smpl_assign
               | xtnd_assign
               | xtnd_mdfr_assign
 
-list_assign : "{" single_assign ("," single_assign)* "}"
+multi_assign : "{" single_assign ("," single_assign)* "}"
 
-
-imports_with_assign : imports single_assign
-first_assign : single_assign
-start : first_assign
-      | imports_with_assign
-
+start : multi_import single_assign
 
 %import common.ESCAPED_STRING
 %import common.SIGNED_FLOAT
