@@ -3,7 +3,8 @@ from ./example3.eko import example3 as ex
 example2 : {
     a : 2,
     b : {
-        x : 1
+        x : 1,
+        y : ex
     }
 }
 

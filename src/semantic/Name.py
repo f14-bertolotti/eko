@@ -14,5 +14,8 @@ class Name:
     def __ne__(self, other):
         return self.name != other.name
 
+    def __repr__(self):
+        return str(self)
+
     def __str__(self):
-        return self.name
+        return f"{self.name}"

@@ -8,13 +8,22 @@ paths = set()
 
 class Import:
     def __init__(self, transformer, path, name, alias):
+        print("P",path,name,alias)
         self.qualified_name = name
         self.alias = alias
         paths.add(Path(transformer.curr_path))
         self.path = os.path.join(os.path.dirname(transformer.curr_path), path)
         self.eko = self.load(self.path, transformer)
 
+        print("PP",self.qualified_name)
         self.is_valid()
+        # collapse
+        for name in self.qualified_name:
+            self.eko.dictionary = self.eko.dictionary[Key(name)]
+
+        # apply alias
+        self.eko.dictionary = {Key(alias):self.eko.dictionary}
+
 
     def __repr__(self):
         return str(self)
